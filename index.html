@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browser 3D Modeler</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">Browser 3D Modeler</div>
+      <div class="status" id="status">クリックしてモデルを選択、またはツールで作成</div>
+    </header>
+    <div class="layout">
+      <aside class="panel">
+        <section>
+          <h2>作成</h2>
+          <div class="button-row">
+            <button id="add-box">直方体</button>
+            <button id="add-sphere">球</button>
+            <button id="add-cylinder">円柱</button>
+          </div>
+          <div class="button-row">
+            <button id="start-draw">平面ポリゴン描画</button>
+            <button id="finish-draw" disabled>面を押し出す</button>
+            <button id="cancel-draw" disabled>キャンセル</button>
+          </div>
+          <label class="field">
+            押し出し高さ (m):
+            <input type="number" id="extrude-height" min="0.1" step="0.1" value="1.5" />
+          </label>
+        </section>
+        <section>
+          <h2>編集</h2>
+          <div class="button-row">
+            <button data-mode="translate" class="mode-button active">移動</button>
+            <button data-mode="rotate" class="mode-button">回転</button>
+            <button data-mode="scale" class="mode-button">スケール</button>
+          </div>
+          <div class="button-row">
+            <button id="delete-selected">選択を削除</button>
+            <button id="reset-camera">カメラをリセット</button>
+            <button id="duplicate-selected">複製</button>
+          </div>
+          <label class="field">
+            選択色:
+            <input type="color" id="color-picker" value="#6ee7ff" />
+          </label>
+          <label class="field">
+            スナップ (m):
+            <input type="number" id="snap-step" min="0.05" step="0.05" value="0.25" />
+            <span class="toggle"><input type="checkbox" id="snap-toggle" checked /> 有効</span>
+          </label>
+          <label class="field toggle"><input type="checkbox" id="toggle-grid" checked /> グリッド</label>
+          <label class="field toggle"><input type="checkbox" id="toggle-axes" checked /> XYZ軸</label>
+        </section>
+        <section>
+          <h2>ビュー</h2>
+          <div class="button-row">
+            <button data-view="iso" class="view-button active">アイソメ</button>
+            <button data-view="top" class="view-button">上面</button>
+            <button data-view="front" class="view-button">前面</button>
+            <button data-view="right" class="view-button">右面</button>
+          </div>
+        </section>
+        <section>
+          <h2>入出力</h2>
+          <div class="button-row">
+            <button id="export-json">シーンをJSON保存</button>
+            <button id="import-json">JSONを開く</button>
+            <input type="file" id="import-file" accept="application/json,.json,.gltf,.glb,.skp" hidden />
+          </div>
+          <div class="button-row">
+            <button id="export-gltf">gltfを書き出し</button>
+            <button id="import-skp">skp読込 (案内)</button>
+            <button id="export-skp">skp書出 (案内)</button>
+          </div>
+          <p class="note">※ skpはブラウザ単体で直接処理できないため、glTFまたはJSONでのやり取りを推奨します。</p>
+        </section>
+      </aside>
+      <main class="viewport" id="viewport" aria-label="3Dビューポート">
+        <div class="badge">左ドラッグ: 回転 / 中ドラッグ: パン / ホイール: ズーム</div>
+        <div class="dimension" id="dimension-label">選択中: なし</div>
+      </main>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.164.1/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.164.1/examples/js/controls/TransformControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.164.1/examples/js/exporters/GLTFExporter.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.164.1/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
